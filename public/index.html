@@ -16,8 +16,8 @@
     <script>
       const bdElement = document.querySelector('#bd');
       const goalElement = document.querySelector('#goal');
-      bdElement.value = localStorage.getItem('bd');
-      goalElement.value = localStorage.getItem('goal');
+      bdElement.value = localStorage.getItem('bd') || '2000-01-01';
+      goalElement.value = localStorage.getItem('goal') || 40;
       bdElement.addEventListener('change', e => {
         localStorage.setItem('bd', e.target.value);
       });
