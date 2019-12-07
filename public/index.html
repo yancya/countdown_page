@@ -1,0 +1,40 @@
+<html>
+  <head>
+    <title>Countdown</title>
+  </head>
+  <body>
+    <h1>Countdown</h1>
+    <p>Your birthday: <input id="bd" type="date" /></p>
+    <p>Goal age: <input id="goal" type="number" size="3"/></p>
+    <p>Remaining time: <span id="countdown"></span></p>
+    <script>
+      const bdElement = document.querySelector('#bd');
+      const goalElement = document.querySelector('#goal');
+      bdElement.value = localStorage.getItem('bd');
+      goalElement.value = localStorage.getItem('goal');
+      bdElement.addEventListener('change', e => {
+        localStorage.setItem('bd', e.target.value);
+      });
+      goalElement.addEventListener('change', e => {
+        localStorage.setItem('goal', e.target.value);
+      });
+      const countdownElement = document.querySelector('#countdown');
+      const zeroPad = n => (n+'').padStart(2, '0');
+      setInterval(() => {
+        const bd = localStorage.getItem('bd');
+        const goal = localStorage.getItem('goal');
+        const date = new Date(bd);
+        date.setYear(date.getFullYear() + parseInt(goal));
+        const n = date - Date.now();
+        const days = zeroPad(Math.trunc(n / 1000 / 60 / 60 / 24));
+        const rest1 = n - (days * 1000 * 60 * 60 * 24);
+        const hours = zeroPad(Math.trunc(rest1 / 1000 / 60 / 60));
+        const rest2 = rest1 - (hours * 1000 * 60 * 60);
+        const minites = zeroPad(Math.trunc(rest2 / 1000 / 60));
+        const rest3 = rest2 - (minites * 1000 * 60);
+        const seconds = zeroPad(Math.trunc(rest3 / 1000));
+        countdownElement.innerHTML = `${days} days and ${hours}:${minites}:${seconds} `
+      }, 1000);
+    </script>
+  </body>
+</html>
